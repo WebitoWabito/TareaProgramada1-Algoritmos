@@ -50,4 +50,37 @@ que entran ahí. Si dos claves tienen el mismo hash, se guardan en esa lista, lo
 *En esta primera etapa se implementan la lista ordenada dinámica, la lista ordenada estática y la tabla hash abierta.
 
 
+-----segunda etapa------
 
+
+1. ABB Genérico
+
+En el arbol de búsqueda binaria cada nodo tiene como máximo dos hijos: izquierdo y derecho. En el hijo izquierdo van a estar los menores y ewn el hijo derecho van a estar los mayores o iguales.
+Esta estructurab permite buscar, insertar o borrar elementos de forma más rápida que una lista, porque n9o necesitamos revisar todos los elementos, sino que podemos ir  descendiendo por el árbol siguiendo la regla de menor/mayor.
+
+2. ABB por punteros
+
+En esta implementación, cada nodo del árbol tiene un puntero al hijo izquierdo y otro al hijo derecho. Se usan referencias. Este va a ser más flexible porque podemos crecer el árbol dinámicamente sin preocuparnos del tamaño, pero cada nodo ocupa memoria extra para los punteros.
+La clase NodoABB define un nodo con elemento, izq y der.
+La clase AbbPunteros controla la raíz, inserción, borrado y búsqueda recursivamente.
+
+3. ABB por vector
+
+En esta implementación, el ABB se guarda en un vector o arreglo, donde cada posición representa un nodo. Cuando se inserta o borra, se mueven elementos según su relación. El vector crece dinámicamente si se necesita más espacio. Entres sus ventajas, se ocupa menos memoria por nodo porque no hay punteros y sus desventajas, si el árbol está muy desbalanceado, se desperdicia mucho espacio en el vector.
+
+4. Trie genérico
+
+Este es un árbol especial para almacenar cadenas de caracteres. Cada nodo representa una letra, y el camino desde la raíz hasta un nodo marcado como el último forma una palabra válida. Este es muy eficiente para buscar palabras o prefijos, pero puede usar más memoria que otros árboles porque cada nodo tiene muchos hijos posibles, uno por letra.
+
+5. Trie por punteros
+
+En esta versión del trie, cada nodo tiene un arreglo de punteros a sus hijos y un booleano que indica si el nodo marca el fin de una palabra.
+Se crea un nodo raíz vacío y se insertan palabras letra por letra. Para buscar se siguen los punteros según las letras de la palabra.
+
+6. Trie por arreglos
+
+En este se usan arreglos de enteros para indicar las posiciones de los hijos en una lista de nodos, en vez de punteros. Cada nodo va a ser un arreglo de 26 posiciones, con -1 si no hay hijo.
+Para insertar, se buscan o crean los nodos necesarios.
+Para borrar, simplemente se marca que ya no es final de palabra.
+
+*Nota: agregué el main.py solemente para poder coprrerlo de manera más sencilla con el - python -m tarea1
