@@ -15,14 +15,14 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
 
-from tarea1.diccionario import Diccionario
-from tarea1.listaordenadadinamica import ListaOrdenadaDinámica
-from tarea1.listaordenadaestatica import ListaOrdenadaEstática
-from tarea1.tablahashabierta import TablaHashAbierta
-from tarea1.abbpunteros import AbbPunteros
-from tarea1.abbvectorheap import ABBVectorHeap
-from tarea1.triepunteros import TriePunteros
-from tarea1.triearreglos import TrieArreglos
+from .diccionario import Diccionario
+from .listaordenadadinamica import ListaOrdenadaDinámica
+from .listaordenadaestatica import ListaOrdenadaEstática
+from .tablahashabierta import TablaHashAbierta
+from .abbpunteros import AbbPunteros
+from .abbvectorheap import ABBVectorHeap
+from .triepunteros import TriePunteros
+from .triearreglos import TrieArreglos
 
 
 console = Console()

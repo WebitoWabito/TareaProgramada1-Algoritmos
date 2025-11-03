@@ -3,7 +3,7 @@ Primera etapa - Tarea programada 1
 Adrián Arias Vargas - C30749
 Jimena Bejarano Sánchez - C31074
 
------Descripciones-----
+----- Descripciones -----
 
 1. Modelo Diccionario: 
 -Consiste básicamente en una estructura donde se van a guardar datos que van a ser identificados por una clave, en este caso strings de máximo 20 letras minúsculas. 
@@ -50,7 +50,7 @@ que entran ahí. Si dos claves tienen el mismo hash, se guardan en esa lista, lo
 *En esta primera etapa se implementan la lista ordenada dinámica, la lista ordenada estática y la tabla hash abierta.
 
 
------segunda etapa------
+----- Segunda etapa------
 
 
 1. ABB Genérico
@@ -84,3 +84,35 @@ Para insertar, se buscan o crean los nodos necesarios.
 Para borrar, simplemente se marca que ya no es final de palabra.
 
 *Nota: agregué el main.py solemente para poder coprrerlo de manera más sencilla con el - python -m tarea1
+
+-------- Tercera etapa ----------
+En esta entrega lo que se hace es la comparación del rendimiento de las distintas versiones del modelo Diccionario 
+
+Nuestro objetivo es medir cuánto tarda cada operación básica (Init, Insert, member, Delete, print, Done) en las distintas estructuras: 
+- Lista ordenada por arreglos o punteros 
+- Árbol Binario de Búsqueda (ABB)
+- Trie 
+- tabla Hash
+Y comparar sus tiempos de ejecución con distintos tamaños 
+
+-- Código --
+1. Librerias importadas 
+random: para generar las palabras aleatorias
+time: para medir cuánto tarda cada operación 
+pandas: para organizar los resultados en una tabla 
+matplotlib: para graficar los resultados 
+
+2. generar_palabras()
+Crea hileras (palabras) que se usarán como claves a insertar en los diccionarios
+
+3. medir_tiempo 
+calcula tiempo en milisegundos para cada una de las pruebas 
+
+4. Se ejecutan las pruebas en diferentes estructuras y tamaños, para cada una: se crea el diccionario, se insertan palabras, busca con Member, borra conDelete, imprime con Print, termina con Done y guarda el tiempo promedio de vcada operación 
+
+5. Resultados 
+Se genera un archivo CSV con los tiempos promedio por operación y estructura 
+
+6. Gráficos de comparación
+Para cada una de las operaciones se hace un gráfico de lineas mostrando la diferencia de los tiempos dependiendo del tamaño de la prueba y la estructura de esta 
+

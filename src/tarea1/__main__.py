@@ -1,4 +1,4 @@
-from tarea1 import main
+from . import main
 
 if __name__ == "__main__":
     main()

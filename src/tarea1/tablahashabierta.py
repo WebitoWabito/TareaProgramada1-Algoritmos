@@ -1,4 +1,4 @@
-from tarea1.diccionario import Diccionario
+from .diccionario import Diccionario
 
 class TablaHashAbierta(Diccionario):
     def __init__(self, tamaño_inicial=11):
