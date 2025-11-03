@@ -93,7 +93,9 @@ Nuestro objetivo es medir cuánto tarda cada operación básica (Init, Insert, m
 - Árbol Binario de Búsqueda (ABB)
 - Trie 
 - tabla Hash
-Y comparar sus tiempos de ejecución con distintos tamaños 
+Y comparar sus tiempos de ejecución con distintos tamaños
+
+Los gráficos son generados en imágenes al final de la ejecución de pruebas (opción 2 del menú) jutnyo con un archivo .csv que va a contener los resultados de todas las operaciones en todas las estructuras.
 
 -- Código --
 1. Librerias importadas 

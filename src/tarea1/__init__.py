@@ -16,6 +16,7 @@ from rich.panel import Panel
 from rich.prompt import Prompt
 
 from .diccionario import Diccionario
+from .pruebas import main as ejecutar_pruebas
 from .listaordenadadinamica import ListaOrdenadaDinámica
 from .listaordenadaestatica import ListaOrdenadaEstática
 from .tablahashabierta import TablaHashAbierta
@@ -23,6 +24,7 @@ from .abbpunteros import AbbPunteros
 from .abbvectorheap import ABBVectorHeap
 from .triepunteros import TriePunteros
 from .triearreglos import TrieArreglos
+
 
 
 console = Console()
@@ -271,7 +273,7 @@ def main() -> None:
             diccionario = menu_clase()
             menu_diccionario(diccionario)
         case "2":
-            pass
+            ejecutar_pruebas()
 
 
 if __name__ == "__main__":

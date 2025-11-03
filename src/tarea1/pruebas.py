@@ -1,113 +1,98 @@
 import random
+import string
 import time
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 import pandas as pd
 
-# Importa implementaciones de las estructuras de datos
-from diccionario_lista import DiccionarioLista
-from diccionario_abb import DiccionarioABB
-from diccionario_trie import DiccionarioTrie
-from diccionario_hash import DiccionarioHash
+# Importaciones corregidas
+from .listaordenadadinamica import ListaOrdenadaDinámica
+from .abbpunteros import AbbPunteros
+from .triepunteros import TriePunteros
+from .tablahashabierta import TablaHashAbierta
+from .listaordenadaestatica import ListaOrdenadaEstática
+from .abbvectorheap import ABBVectorHeap
+from .triearreglos import TrieArreglos
 
+def generar_lista_palabras(n: int) -> list[str]:
+    """Genera una lista de n palabras aleatorias."""
+    palabras = []
+    for _ in range(n):
+        longitud = random.randint(1, 20)
+        palabra = ''.join(random.choices(string.ascii_lowercase, k=longitud))
+        palabras.append(palabra)
+    return palabras
 
-# Genera palabra aleatoria de 5 letras
-def generar_palabra():
-    letras = 'abcdefghijklmnopqrstuvwxyz'
-    return ''.join(random.choice(letras) for _ in range(5))
-
-
-# Genera lista de palabras aleatorias
-def generar_lista_palabras(cantidad):
-    return [generar_palabra() for _ in range(cantidad)]
-
-
-# Se mide el tiempo que tarda en ejecutar una operación
 def medir_tiempo(funcion):
-    inicio = time.perf_counter()
+    """Mide el tiempo de ejecución de una función en milisegundos."""
+    inicio = time.time()
     funcion()
-    fin = time.perf_counter()
-    return (fin - inicio) * 1000  # se devuelve en milisegundos
-
+    fin = time.time()
+    return (fin - inicio) * 1000  # Convertir a milisegundos
 
 def main():
-    # tam de prueba
-    tamanos = [10, 100, 10000]
-
-    # cantidad de repeticiones por prueba
+    # Tamaños de prueba
+    tamanos = [10, 50, 100] #se pueden probar con los parámetros del doc(100, 50mil, 1millón) pero se tarda bastante
+    
+    # Cantidad de repeticiones por prueba
     repeticiones = 10
 
-    # Listado de estructuras a probar
+    # Listado actualizado de estructuras a probar
     estructuras = [
-        ("Lista Ordenada", DiccionarioLista),
-        ("Árbol Binario", DiccionarioABB),
-        ("Trie", DiccionarioTrie),
-        ("Tabla Hash", DiccionarioHash)
+        ("Lista Ordenada Dinámica", ListaOrdenadaDinámica),
+        ("Lista Ordenada Estática", ListaOrdenadaEstática),
+        ("ABB Punteros", AbbPunteros),
+        ("ABB Vector Heap", ABBVectorHeap),
+        ("Trie Punteros", TriePunteros),
+        ("Trie Arreglos", TrieArreglos),
+        ("Tabla Hash Abierta", TablaHashAbierta)
     ]
 
     # Resultados de las pruebas
-    resultados = [] 
+    resultados = []
 
     for tam in tamanos:
         print(f"\n=== Pruebas con {tam} palabras ===")
 
-        # Se generan palabras aleatorias para esta ronda de pruebas 
         palabras = generar_lista_palabras(tam)
 
         for nombre, Clase in estructuras:
-            # Mediciones de tiempo para cada operación
-            tiempos = {"Init": 0, "Insert": 0, "Member": 0, "Delete": 0, "Print": 0, "Done": 0}
+            tiempos = {}
 
-            # Se repiten las pruebas para promediar los tiempos
             for _ in range(repeticiones):
-                diccionario = Clase()
+                if nombre == "Lista Ordenada Estática":
+                    diccionario = Clase(tam)  # Pasar el tamaño
+                else:
+                    diccionario = Clase()  # Resto de estructuras sin parámetros
+                
+                tiempos["Agregar"] = medir_tiempo(lambda: [diccionario.inserte(p) for p in palabras])
+                tiempos["Miembro"] = medir_tiempo(lambda: [diccionario.miembro(p) for p in palabras])
+                tiempos["Imprimir"] = medir_tiempo(lambda: diccionario.imprima())
+                tiempos["Borrar"] = medir_tiempo(lambda: [diccionario.borre(p) for p in palabras])
+                tiempos["Limpiar"] = medir_tiempo(lambda: diccionario.limpie())
 
-                # Tiempo de Init
-                tiempos["Init"] += medir_tiempo(lambda: diccionario.Init())
-
-                # Tiempo de Insert
-                tiempos["Insert"] += medir_tiempo(lambda: [diccionario.Insert(p) for p in palabras])
-
-                # Tiempo de Member
-                tiempos["Member"] += medir_tiempo(lambda: [diccionario.Member(p) for p in palabras])
-
-                # Tiempo de Delete
-                tiempos["Delete"] += medir_tiempo(lambda: [diccionario.Delete(p) for p in palabras])
-
-                # Tiempo de Print
-                tiempos["Print"] += medir_tiempo(lambda: diccionario.Print())
-
-                # Tiempo de Done
-                tiempos["Done"] += medir_tiempo(lambda: diccionario.Done())
-
-            # Se calcula el promedio dividiendo entre el número de repeticiones
+            # Calcula promedios
             for clave in tiempos:
                 tiempos[clave] /= repeticiones
 
-            # Se muestran los resultados en consola
             print(f"\nEstructura: {nombre}")
             for op, t in tiempos.items():
                 print(f"{op}: {t:.4f} ms")
 
-            # Se almacenan los res para un analisis que se hara luego
             resultados.append({
                 "Estructura": nombre,
                 "Tamaño": tam,
                 **tiempos
             })
 
-    # se crea un cuadro de pandas con los resultados para facilitar el analisis de datos
+    # Crear DataFrame y generar reportes
     df = pd.DataFrame(resultados)
-    print("\n=== Resultados generales ===")
-    print(df)
+    df.to_csv("resultados_pruebas.csv", index=False)
+    print("\nResultados guardados en 'resultados_pruebas.csv'")
 
-    # se guardan los resultados en un archivo CSV
-    df.to_csv("resultadosPruebas.csv", index=False)
-    print("\nLos resultados se guardaron en 'resultadosPruebas.csv'.")
-
-    # Se generan graficos para cada operacion
-    operaciones = ["Init", "Insert", "Member", "Delete", "Print", "Done"]
+    # Generar gráficos para cada operación
+    operaciones = ["Agregar", "Miembro", "Borrar", "Imprimir", "Limpiar"]
     for op in operaciones:
-        plt.figure()
+        plt.figure(figsize=(10, 6))
         for tam in tamanos:
             subset = df[df["Tamaño"] == tam]
             plt.plot(subset["Estructura"], subset[op], marker="o", label=f"{tam} palabras")
@@ -115,12 +100,12 @@ def main():
         plt.xlabel("Estructura de Datos")
         plt.ylabel("Tiempo (ms)")
         plt.legend()
+        plt.xticks(rotation=45)
         plt.tight_layout()
         plt.savefig(f"grafico_{op.lower()}.png")
         plt.close()
 
-    print("\nGráficos generados y guardados como 'grafico_init.png', 'grafico_insert.png', etc.")
-
+    print("\nGráficos generados para cada operación")
 
 if __name__ == "__main__":
     main()
